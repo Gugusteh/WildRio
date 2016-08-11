@@ -1,0 +1,123 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+	<nav>
+		<a href="{{ path('vote_homepage') }}" class="btn-retour"><span class="glyphicon glyphicon-chevron-left"></span> Retour</a>
+	</nav>
+	<img src="{{ asset('img/natation.jpg')}}" class="img-head">
+	<article class="epreuve-text">
+	<p>Nom de l'épreuve: {{ epreuve.name }}</p>
+	<p>Description: {{ epreuve.description }}</p>
+	</article>
+	{% if vote == null %}
+		<div class="list-athletes">
+			{% if athletes != null %}
+				{% for athlete in athletes %}
+					<p>
+						<div class="col-md-11">{{ athlete.name }}</div>
+						<div class="col-md-1">
+							<form action="{{ path('vote_athlete', {'id': epreuve.id }) }}" method="post">
+								<input value="{{ athlete.id }}" class="ath-input" name="idathlete"/>
+								<input type="submit" class="btn-success btn" value="voter"/>
+							</form>
+						</div>
+					</p>
+				{% endfor %}
+			{% else %}
+			<p>Il n'y a pas d'athlète participant à cette épreuve</p>
+			{% endif %}
+		</div>
+	{% else %}
+		<div class="col-md-12 voted">
+			<p><span class="glyphicon glyphicon-ok-circle"></span> Vous avez déjà voté !</p>
+		</div>
+	{% endif %}
+	<div class="graphs-athletes">
+		{% if athletes != null %}
+			{% if counting != 0 %}
+				<div>
+					<div class="col-md-11 graphs">
+						<div class="graph1">{{votes[0].percent|number_format(0)}}% des votes</div>
+					</div>
+					<div class="col-md-1 voted-name"> {{votes[0].name|capitalize }}</div>
+				</div>
+			{% endif %}
+			{% if counting >= 2 %}
+				<div>
+					<div class="col-md-11 graphs">
+						<div class="graph2">{{votes[1].percent|number_format(0)}}% des votes</div>
+					</div>
+					<div class="col-md-1 voted-name"> {{votes[1].name|capitalize }}</div>
+				</div>
+			{% endif %}
+			{% if counting >= 3 %}
+				<div>
+					<div class="col-md-11 graphs">
+						<div class="graph3">{{votes[2].percent|number_format(0)}}% des votes</div>
+					</div>
+					<div class="col-md-1 voted-name"> {{votes[2].name|capitalize }}</div>
+				</div>
+			{% endif %}
+		{% endif %}
+	</div>
+	<div class="col-md-12 footer" style="text-align:center">
+		<img src="{{asset('img/facebook.png')}}" class="reseaux">
+		<img src="{{asset('img/twitter.png')}}" class="reseaux">
+		<img src="{{asset('img/googleplus.png')}}" class="reseaux">
+	</div>
+    <script type="text/javascript">
+    {% if counting != 0 %}
+    	var percent1 = {{votes[0].percent}};
+    	if(percent1 <= 33)
+    	{
+    		$('.graph1').css('background-color','#C9302C');	
+    		//rouge
+    	}
+    	else if((percent1>=34)&&(percent1<=66))
+    	{
+    		$('.graph1').css('background-color','#EC971F');
+    		// orange
+    	}
+    	else
+    	{
+    		$('.graph1').css('background-color','#5CB85C');
+    		//vert
+    	}
+    	$('.graph1').css('width',percent1+'%');
+    {% endif %}
+    {% if counting >= 2 %}
+    	var percent2 = {{votes[1].percent}};
+    	$('.graph2').css('width',percent2+'%');
+       	if(percent2<=33){
+    		$('.graph2').css('background-color','#C9302C');	
+    		//rouge
+    	}
+    	else if((percent2>=34)&&(percent2<=66)){
+    		$('.graph2').css('background-color','#EC971F');
+    		//orange
+    	}
+    	else{
+    		$('.graph2').css('background-color','#5CB85C');
+    		//vert
+    	}
+	{% endif %}
+	{% if counting >= 3 %}
+    	var percent3 = {{votes[2].percent}};
+    	$('.graph3').css('width',percent3+'%');
+       	if(percent3<=33)
+    	{
+    		$('.graph3').css('background-color','#C9302C');	
+    		//rouge
+    	}
+    	else if((percent3>=34)&&(percent3<=66))
+    	{
+    		$('.graph3').css('background-color','#EC971F');
+    		// orange
+    	}
+    	else
+    	{
+    		$('.graph3').css('background-color','#5CB85C');
+    		//vert
+    	}
+	{% endif %}   
+    </script>
+{% endblock %}

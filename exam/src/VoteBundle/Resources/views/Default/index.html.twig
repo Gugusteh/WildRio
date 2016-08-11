@@ -1,0 +1,104 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+	 <header>         
+        <nav class="nav-bar">
+            <div class="col-md-2 col-md-offset-10">
+                {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                    <p class="btn-connexion"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Bonjour {{ user.username | capitalize }}</p>
+
+                    {% else %}
+                    <a data-toggle="modal" data-target="#myModal" href="" class="btn-connexion"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Se connecter</a>
+                {% endif %}
+            </div>
+        </nav>
+    </header>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Connexion</h4>
+            </div>
+            <form action="{{ path("fos_user_security_check") }}" method="post">
+                <div class="modal-body">
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+                    <div class="col-md-6">
+                        <label for="username">Nom d'utilisateur</label>
+                    </div>
+                    <div class="col-md-6">
+                      <input type="text" id="username" name="_username" value="{{ last_username }}" required="required" /></br>
+                    </div>
+                    <div class="col-md-6">
+                      <label for="password">Mot de passe</label>
+                    </div>
+                    <div class="col-md-6">
+                      <input type="password" id="password" name="_password" required="required" /></br>
+                    </div>
+                    </br>
+                    <div class="col-md-8 col-md-offset-4">
+                      <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
+                      <label for="remember_me" style="text-align-center">se souvenir de moi</label></br></br>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-md-6 col-md-offset-5">
+                        <input type="submit" class="btn btn-login btn-primary" id="_submit" name="_submit" value="Valider" />
+                    </div>
+                </div>
+            </form>
+        </div>
+      </div>
+    </div>
+    <img src="{{ asset('img/fond.jpg') }}" alt="fond rio" class="fond">
+    <h2 class="titre">Prochaines épreuves</h2>
+    <div class="col-md-4">
+    	<img src="{{ asset('img/natation.jpg') }}" class="img-epreuves">
+    	<article class="epreuves-index">
+    		<p>{{ epreuves[0].name }}</p>
+            <p>{{epreuves[0].description }}</p>
+    		<p  class="btn-seemore">
+    			<a href="{{path('epreuve', {'id':  epreuves[0].id })}}" class="btn btn-info">voir<span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span></a>
+    		</p>
+    	</article>
+    </div>
+    <div class="col-md-4">
+    	<img src="{{ asset('img/golf.jpg') }}" class="img-epreuves">
+    	<article class="epreuves-index">
+    		<p>{{ epreuves[1].name }}</p>
+            <p>{{epreuves[1].description }}</p>
+    		<p  class="btn-seemore">
+    			<a href="{{path('epreuve', {'id':  epreuves[1].id })}}" class="btn btn-info">voir<span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span></a>
+    		</p>
+    	</article>
+    </div>
+    <div class="col-md-4">
+    	<img src="{{ asset('img/article_escrime.jpg') }}" class="img-epreuves">
+    	<article class="epreuves-index">
+    		<p>{{ epreuves[2].name }}</p>
+            <p>{{epreuves[2].description }}</p>
+    		<p  class="btn-seemore">
+    			<a href="{{path('epreuve', {'id':  epreuves[2].id })}}" class="btn btn-info">voir<span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span></a>
+    		</p>
+    	</article>
+    </div>
+    <div class="parent">
+    <img src="{{ asset('img/fond2.jpg') }}" class="fond2">
+	    <article class="col-md-10 col-md-offset-1 video">
+	    	<div class="col-md-7">
+	    		<img src="{{asset('img/fond.jpg')}}" class=" img-video">
+	    	</div>
+	    	<div class="col-md-5 text-video">
+				Pourquoi l'utiliser?
+				On sait depuis longtemps que travailler avec du texte lisible et contenant du sens est source de distractions, et empêche de se concentrer sur la mise en page elle-même. L'avantage du Lorem Ipsum sur un texte générique comme 'Du texte. Du texte. Du texte.' est qu'il possède une distribution de lettres plus ou moins normale, et en tout cas comparable avec celle du français standard. De nombreuses suites logicielles de mise en page ou éditeurs de sites Web ont fait du Lorem Ipsum leur faux texte par défaut, et une recherche pour 'Lorem Ipsum' vous conduira vers de nombreux sites qui n'en sont encore qu'à leur phase de construction. Plusieurs versions sont apparues avec le temps, parfois par accident, souvent intentionnellement (histoire d'y rajouter de petits clins d'oeil, voire des phrases embarassantes).
+	    	</div>
+	    </article>
+    </div>
+    <footer>
+        <div class="col-md-12" style="text-align:center">
+            <img src="{{asset('img/facebook.png')}}" class="reseaux">
+            <img src="{{asset('img/twitter.png')}}" class="reseaux">
+            <img src="{{asset('img/googleplus.png')}}" class="reseaux">
+        </div>
+    </footer>
+
+{% endblock %}

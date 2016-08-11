@@ -1,0 +1,11 @@
+vote_homepage:
+    path:     /
+    defaults: { _controller: VoteBundle:Home:show }
+
+epreuve:
+    path:     /user/show/{id}
+    defaults: { _controller: VoteBundle:Oneepreuve:show }
+
+vote_athlete:
+    path:     /user/vote/{id}
+    defaults: { _controller: VoteBundle:Oneepreuve:vote }
